@@ -1,0 +1,39 @@
+name: Assignment 5 Autograding
+
+on:
+  push:
+    paths:
+      - 'Assignment_5/answers.sql'
+      - 'Assignment_5/setup.sql'
+      - 'Assignment_5/test.sh'
+      - '.github/workflows/assignment5.yml'
+  workflow_dispatch:
+
+jobs:
+  autograding:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup MySQL
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql version: '8.0'
+          mysql database: 'CollegeDB'
+          mysql root password: 'root'
+
+      - name: Run Setup SQL
+        run: |
+          mysql -h 127.0.0.1 -u root -proot CollegeDB < Assignment_5/setup.sql
+
+      - name: Run Student Answer
+        run: |
+          mysql -h 127.0.0.1 -u root -proot CollegeDB < Assignment_5/answers.sql
+
+      - name: Run Test Cases
+        run: |
+          chmod +x Assignment_5/test.sh
+          Assignment_5/test.sh
