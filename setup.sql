@@ -1,8 +1,8 @@
-CREATE DATABASE IF NOT EXISTS CollegeDB;
-
 USE CollegeDB;
 
-CREATE TABLE IF NOT EXISTS Student (
+DROP TABLE IF EXISTS Student;
+
+CREATE TABLE Student (
     StudentID INT PRIMARY KEY,
     StudentName VARCHAR(20),
     Gender VARCHAR(10),
